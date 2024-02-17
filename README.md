@@ -6,6 +6,7 @@
 
 This is a simple chatbot with the objective of feeding it with questions and answers in order to give first line IT suport or FAQ in Webs
 
+If no answer related to the question is found, it will ask you explain what you are asking for
  --------------------------------------------
 
 Create a .env file with the next variables:
