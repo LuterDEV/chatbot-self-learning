@@ -31,10 +31,6 @@ def chat_bot():
 
     print('------------------------------------------ \n')
     print('Welcome to my project! \n')
-    print('You can find me in GitHub -> https://github.com/LuterDEV')
-    print('In Linkedin -> https://www.linkedin.com/in/martin-ojeda-alonso/')
-    print('In Instagram -> https://www.instagram.com/luteeeeeer/')
-    print('Or in Twitch -> ******* \n')
     print('------------------------------------------ \n')
     
 
