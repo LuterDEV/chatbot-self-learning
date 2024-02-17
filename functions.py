@@ -1,11 +1,17 @@
 import json
 from difflib import get_close_matches
-from dotenv import load_dotenv, dotenv_values
 import os
+from dotenv import load_dotenv
+from typing import Optional
 
 #Environmental variables
+load_dotenv()
 replies = os.getenv('replies')
+if replies is not None:
+    replies = int(replies)
 similarity = os.getenv('similarity')
+if similarity is not None:
+    similarity = float(similarity)
 
 def load_knowledge_db(file_path: str) -> dict:
     with open(file_path, 'r') as file:
@@ -30,7 +36,7 @@ def chat_bot():
     knowledge_db: dict = load_knowledge_db('knowledge_db.json')
 
     print('------------------------------------------ \n')
-    print('Welcome to my project! \n')
+    print('Hello! I\'m Josete and I\'m here to assist you :) \n')
     print('------------------------------------------ \n')
     
 
@@ -38,6 +44,7 @@ def chat_bot():
         user_input: str = input('You: ')
 
         if user_input.lower() == 'bye':
+            print("Nice to meet you! :) \n")
             break
 
         best_match: str | None = find_best_match(user_input, [q["question"] for q in knowledge_db["questions"]])
@@ -53,5 +60,5 @@ def chat_bot():
             if new_answer.lower() != 'skip':
                 knowledge_db["questions"].append({"question": user_input, "answer": new_answer})
                 save_knowledge_db('knowledge_db.json', knowledge_db)
-                print('Bot: Thank you! I learned a new response!')
+                print('Bot: Thank you! I learned something new today!')
         
