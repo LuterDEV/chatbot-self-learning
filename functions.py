@@ -3,6 +3,7 @@ from difflib import get_close_matches
 import os
 from dotenv import load_dotenv
 from typing import Optional
+from flask import request
 
 #Environmental variables
 load_dotenv()
@@ -32,33 +33,27 @@ def get_answer_for_question(question: str, knowledge_db: dict) -> str | None:
         if q["question"] == question:
             return q["answer"]
         
-def chat_bot():
+def chat_bot(user_input: str):
     knowledge_db: dict = load_knowledge_db('knowledge_db.json')
 
-    print('------------------------------------------ \n')
-    print('Hello! I\'m Josete and I\'m here to assist you :) \n')
-    print('------------------------------------------ \n')
-    
+    if user_input.lower() == 'bye':
+        return "Nice to meet you! :)"
 
-    while True:
-        user_input: str = input('You: ')
+    best_match: str | None = find_best_match(user_input, [q["question"] for q in knowledge_db["questions"]])
 
-        if user_input.lower() == 'bye':
-            print("Nice to meet you! :) \n")
-            break
+    if best_match:
+        answer: str = get_answer_for_question(best_match, knowledge_db)
+        return answer
+    else:
+        new_answer: str = input('Type the answer or "skip" to skip: ')
 
-        best_match: str | None = find_best_match(user_input, [q["question"] for q in knowledge_db["questions"]])
-
-        if best_match:
-            answer: str = get_answer_for_question(best_match, knowledge_db)
-            print(f'Bot: {answer}') # type: ignore
-
+        if new_answer.lower() != 'skip':
+            knowledge_db["questions"].append({"question": user_input, "answer": new_answer})
+            save_knowledge_db('knowledge_db.json', knowledge_db)
+            return 'Thank you! I learned something new today!'
         else:
-            print('Bot: I don\'t know the answer. Can you teach me?')
-            new_answer: str = input('Type the answer or "skip" to skip: ')
+            return 'Ok, no problem!'
 
-            if new_answer.lower() != 'skip':
-                knowledge_db["questions"].append({"question": user_input, "answer": new_answer})
-                save_knowledge_db('knowledge_db.json', knowledge_db)
-                print('Bot: Thank you! I learned something new today!')
+
+
         
