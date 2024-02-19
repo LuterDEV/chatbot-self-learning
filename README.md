@@ -1,5 +1,5 @@
 # chatbot-self-learning
-
+****I'M MODIFYING THE CODE UNTIL NEXT NOTICE 19-02-2024****
 --------------------------------------------
 
 Project made by https://github.com/LuterDEV
